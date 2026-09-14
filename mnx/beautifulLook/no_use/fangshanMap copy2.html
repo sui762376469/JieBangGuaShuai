@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+    <div id="container" style="height: 100%"></div>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script>
+        var myChart = echarts.init(document.getElementById("container"));
+
+        // 改成加载你新生成的乡镇边界文件
+        // 先加载地图GeoJSON
+        fetch('./fangshan.json')
+            .then(function(r) { return r.json(); })
+            .then(function(geoJson) {
+
+                // 再加载统计数据
+                return fetch('./fangshan_showtimes.json')
+                    .then(function(r) { return r.json(); })
+                    .then(function(statData) {
+                        mapData = statData;  // 使用真实统计数据
+                        return geoJson;
+                    });
+            })
+            .then(function(geoJson) {
+
+
+                echarts.registerMap('fangshan', geoJson);
+
+                var option = {
+                    backgroundColor: '#404a59',
+                    title: {
+                        text: '房山区乡镇/街道',
+                        left: 'center',
+                        textStyle: { color: '#fff' }
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: function(params) {
+                            return params.name + '<br/>出现次数: ' + params.value + '条';
+                        }
+                    },
+                    visualMap: {
+                        min: 0,
+                        max: Math.max(...mapData.map(function(d) { return d.value; }), 1),  // 自动最大值
+                        left: 'left',
+                        top: 'bottom',
+                        text: ['高', '低'],
+                        inRange: {
+                            color: ['#323c48', '#50a3ba', '#eac736', '#d94e5d', '#ff4500']  // 5级色阶
+                        },
+                        textStyle: { color: '#fff' },
+                        calculable: true  // 可拖拽选择范围
+                    },
+                    series: [{
+                        name: '数据',
+                        type: 'map',
+                        map: 'fangshan',
+                        selectedMode: false,
+                        roam: true,
+                        label: {
+                            show: true,
+                            color: '#fff',
+                            fontSize: 10
+                        },
+                        itemStyle: {
+                            areaColor: '#323c48',
+                            borderColor: '#111',
+                            borderWidth: 0.5
+                        },
+                        emphasis: {
+                            label: { color: '#fff', fontSize: 12 },
+                            itemStyle: { areaColor: '#2a333d' }
+                        },
+                        data: mapData
+                    }]
+                };
+
+                myChart.setOption(option);
+            });
+
+        window.addEventListener('resize', function() {
+            myChart.resize();
+        });
+    </script>
+</body>
+</html>

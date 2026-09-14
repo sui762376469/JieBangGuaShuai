@@ -1,0 +1,13 @@
+sy\app copy1.py 
+    原版文件
+sy\app.py
+    去掉了历史台账
+
+    import sqlite3
+conn = sqlite3.connect('./complaints_ledger.db')
+cursor = conn.cursor()
+cursor.execute("DELETE FROM ledger")
+cursor.execute("DELETE FROM sqlite_sequence WHERE name='ledger'")
+conn.commit()
+conn.close()
+print("数据库已彻底清空，下次入库ID将从1开始")

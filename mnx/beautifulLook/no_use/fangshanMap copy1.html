@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+    <div id="container" style="height: 100%"></div>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script>
+        var myChart = echarts.init(document.getElementById("container"));
+
+        // 改成加载你新生成的乡镇边界文件
+        fetch('./fangshan.json')
+            .then(function(r) { return r.json(); })
+            .then(function(geoJson) {
+
+                echarts.registerMap('fangshan', geoJson);
+
+                // 每个乡镇的数值（替换为你的实际数据）
+                var mapData = geoJson.features.map(function(f) {
+                    return {
+                        name: f.properties.name,
+                        value: Math.round(Math.random() * 300)
+                    };
+                });
+
+                var option = {
+                    backgroundColor: '#404a59',
+                    title: {
+                        text: '房山区乡镇/街道',
+                        left: 'center',
+                        textStyle: { color: '#fff' }
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{b}<br/>数值: {c}'
+                    },
+                    visualMap: {
+                        min: 0,
+                        max: 300,
+                        left: 'left',
+                        top: 'bottom',
+                        text: ['高', '低'],
+                        inRange: {
+                            color: ['#50a3ba', '#eac736', '#d94e5d']
+                        },
+                        textStyle: { color: '#fff' }
+                    },
+                    series: [{
+                        name: '数据',
+                        type: 'map',
+                        map: 'fangshan',
+                        roam: true,
+                        label: {
+                            show: true,
+                            color: '#fff',
+                            fontSize: 10
+                        },
+                        itemStyle: {
+                            areaColor: '#323c48',
+                            borderColor: '#111',
+                            borderWidth: 0.5
+                        },
+                        emphasis: {
+                            label: { color: '#fff', fontSize: 12 },
+                            itemStyle: { areaColor: '#2a333d' }
+                        },
+                        data: mapData
+                    }]
+                };
+
+                myChart.setOption(option);
+            });
+
+        window.addEventListener('resize', function() {
+            myChart.resize();
+        });
+    </script>
+</body>
+</html>

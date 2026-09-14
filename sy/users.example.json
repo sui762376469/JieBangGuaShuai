@@ -1,0 +1,10 @@
+{
+  "users": [
+    {
+      "username": "admin",
+      "password_hash": "e2186dbdb1bb4193608605e84f33208765b5693b55edd4f730a719a100eeea6f",
+      "failed_attempts": 0,
+      "last_failed_login": null
+    }
+  ]
+}

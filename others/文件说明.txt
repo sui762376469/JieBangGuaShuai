@@ -1,0 +1,15 @@
+qwen_model	这是千问0.6B的模型文件【如果需要4B甚至更大的模型，可以和我说】
+
+code.ipynb			B站视频资料
+code_advanced.ipynb		B站视频资料
+
+file1.py对应的是将code.ipynb转换后的python文件
+file2.py对应的是将code_advanced.ipynb转换后的python文件
+file3_5.py对应的是我自己结合AI，读取generated_5category_1000data.csv里的1000条数据完成的
+
+Full_100.csv 			B站视频资料（有两种标签，100条数据）
+generated_5category_data.csv（现在没有代码使用这个文件）		有五种标签，100条数据
+generated_5category_1000data.csv	有五种标签，1000条数据
+
+model_test.py			AI生成的模型测试文件
+streamlit_test.py		AI生成的前端界面文件

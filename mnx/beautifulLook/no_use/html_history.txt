@@ -1,0 +1,6 @@
+1.beautifulLook\no_use\fangshanMap copy1.html
+    原始的界面
+2.beautifulLook\no_use\fangshanMap copy2.html
+    地图里的颜色跟随result.json进行读取，而且去掉了选中功能，避免歧义。
+3.beautifulLook\no_use\fangshanMap copy3.html
+    新增右半边界面，右边的界面还可以放缩，此时右边的界面是空白，等待之后我们开发。
